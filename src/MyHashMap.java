@@ -1,11 +1,9 @@
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-public class MyHashMap<K, V> {
+public class MyHashMap<K, V> implements MyHashMapInterface<K,V>{
 
     private static final int DEFAULT_CAPACITY = 16;
-    public int size;
+    private int size;
     private final Node<K, V>[] table;
     private final int capacity;
 
@@ -19,6 +17,10 @@ public class MyHashMap<K, V> {
         this.table = new Node[capacity];
     }
 
+    @Override
+    public int size() { return this.size ;}
+
+    @Override
     public void put(K key, V value) {
 
         Node<K, V> myNode = new Node<>(key, value);
@@ -47,8 +49,10 @@ public class MyHashMap<K, V> {
 
         }
         this.size++;
+
     }
 
+    @Override
     public Node<K, V> getNode(K key) {
         int hash = hash(key);
 
@@ -71,40 +75,37 @@ public class MyHashMap<K, V> {
         return null;
     }
 
+    @Override
     public V get(K key) {
         Node<K, V> e = getNode(key);
         return e == null ? null : e.value;
     }
-
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
-
+    @Override
     public boolean containsKey(K key) {
         return getNode(key) != null;
     }
-
-    public V remove(K key)
-    {
+    @Override
+    public V remove(K key) {
         int hash = hash(key);
 
-        if(table[hash]  == null) return null;
+        if (table[hash] == null) return null;
 
-        else
-        {
-            Node<K,V> currentNode = table[hash];
-            Node<K,V> previousNode = null;
+        else {
+            Node<K, V> currentNode = table[hash];
+            Node<K, V> previousNode = null;
 
 
-            while (currentNode != null)
-            {
-                if(currentNode.key.equals(key) && previousNode == null)
-                {
+            while (currentNode != null) {
+                if (currentNode.key.equals(key) && previousNode == null) {
                     V val = currentNode.value;
                     previousNode = currentNode.next;
                     currentNode.next = null;
-                    
+
                     table[hash] = previousNode;
                     this.size--;
                     return val;
@@ -127,28 +128,21 @@ public class MyHashMap<K, V> {
         return null;
     }
 
-
-    public void clear()
-    {
-        Node<K,V>[] tab;
-
-        if((tab = table) != null && this.size > 0)
-        {
+    @Override
+    public void clear() {
+        Node<K, V>[] tab;
+        if ((tab = table) != null && this.size > 0) {
             size = 0;
             Arrays.fill(tab, null);
         }
     }
-
-    public boolean containsValue(V value)
-    {
-        Node<K,V>[] tab1;
-        if((tab1 = table) != null && this.size > 0)
-        {
-            for(Node<K,V> e : tab1)
-            {
-                while (e != null)
-                {
-                    if((e.value == null && value == null) || (e.value != null && e.value.equals(value))) return true;
+    @Override
+    public boolean containsValue(V value) {
+        Node<K, V>[] tab1;
+        if ((tab1 = table) != null && this.size > 0) {
+            for (Node<K, V> e : tab1) {
+                while (e != null) {
+                    if ((e.value == null && value == null) || (e.value != null && e.value.equals(value))) return true;
 
                     e = e.next;
                 }
@@ -159,11 +153,12 @@ public class MyHashMap<K, V> {
 
         return false;
     }
-    private int hash(K key) {
+    @Override
+    public int hash(K key) {
         return key == null ? 0 : (key.hashCode() & 0x7FFFFFFF) % capacity;
     }
 
-    public static class Node<K, V> {
+    public static class Node<K, V> implements MyHashMapInterface.Node<K,V> {
         private final K key;
         private V value;
 

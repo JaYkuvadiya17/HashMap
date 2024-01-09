@@ -19,11 +19,11 @@ public class Main {
 
         Integer test = myHashMap.remove("hello");
         System.out.println(test);
-        System.out.println(myHashMap.size);
+        System.out.println(myHashMap.size());
 
 //        myHashMap.clear();
 
-        System.out.println(myHashMap.size);
+        System.out.println(myHashMap.size());
         System.out.println(myHashMap.containsKey("polygenelubricants"));
         System.out.println(myHashMap.containsValue(40));
     }
