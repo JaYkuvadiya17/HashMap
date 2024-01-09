@@ -21,10 +21,11 @@ public class Main {
         System.out.println(test);
         System.out.println(myHashMap.size);
 
-        myHashMap.clear();
+//        myHashMap.clear();
 
         System.out.println(myHashMap.size);
         System.out.println(myHashMap.containsKey("polygenelubricants"));
+        System.out.println(myHashMap.containsValue(40));
     }
 
 }

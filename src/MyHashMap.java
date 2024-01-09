@@ -139,6 +139,26 @@ public class MyHashMap<K, V> {
         }
     }
 
+    public boolean containsValue(V value)
+    {
+        Node<K,V>[] tab1;
+        if((tab1 = table) != null && this.size > 0)
+        {
+            for(Node<K,V> e : tab1)
+            {
+                while (e != null)
+                {
+                    if((e.value == null && value == null) || (e.value != null && e.value.equals(value))) return true;
+
+                    e = e.next;
+                }
+            }
+
+            return false;
+        }
+
+        return false;
+    }
     private int hash(K key) {
         return key == null ? 0 : (key.hashCode() & 0x7FFFFFFF) % capacity;
     }
